@@ -26,7 +26,6 @@ public class Ex3 {
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("appPackage", "org.wikipedia");
         capabilities.setCapability("appActivity", ".main.MainActivity");
-        // capabilities.setCapability("app", "C:\\Users\\1\\IdeaProjects\\JavaAppiumAutomation\\apks");
 
         driver = new AndroidDriver(new URL( "http://127.0.0.1:4723/wd/hub"), capabilities);
     }
@@ -39,8 +38,9 @@ public class Ex3 {
     @Test
     public void main05_Ex3 ()
     {
+        //Если встретили кнопку "Пропустить", нажимаем ее
         if ( ! driver.findElements(By.xpath("//*[contains(@text, 'Пропустить')]")).isEmpty() )
-        {
+                {
             WebElement skip_button = driver.findElement(By.xpath("//*[contains(@text, 'Пропустить')]"));
             skip_button.click();
         }
@@ -51,7 +51,13 @@ public class Ex3 {
                 5
         );
 
-        WebElement search_lang_button = driver.findElement(By.id("org.wikipedia:id/search_lang_button"));
+        //Переключаемся на русскоязычный поиск
+        WebElement search_lang_button = waitForElementPresent(
+                (By.id("org.wikipedia:id/search_lang_button")),
+                "Cannot find language button",
+                5
+        );
+
         String search_lang = search_lang_button.getAttribute("text");
 
         if ( !search_lang.equals("RU") )
