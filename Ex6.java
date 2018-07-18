@@ -36,7 +36,7 @@ public class Ex6 {
     }
 
     @Test
-    public void assertElementPresent() {
+    public void testEx6() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text, 'Пропустить')]"),
                 "Cannot find skip button",
@@ -91,11 +91,19 @@ public class Ex6 {
         );
 
         //Ищем title у статьи (без ожидания)
-        Assert.assertFalse(
-                "We did not found article title",
-                (driver.findElements(By.id("org.wikipedia:id/view_page_title_text")).isEmpty()) == true
+        assertElementPresent (
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "We did not found article title"
         );
+    }
 
+
+    private void assertElementPresent (By by, String error_message)
+    {
+        Assert.assertFalse(
+                error_message,
+                (driver.findElements(by).isEmpty()) == true
+        );
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeOutInSeconds)
